@@ -2,8 +2,8 @@
   "departments": [
     {
       "id": "dept_001",
-      "dept": "Academic Affairs",
-      "subDept": "Faculty Support",
+      "dept": "교무처",
+      "subDept": "교수지원팀",
       "isParentOrg": true,
       "location": {
         "block": "left",
@@ -13,8 +13,8 @@
     },
     {
       "id": "dept_002",
-      "dept": "Student Affairs",
-      "subDept": "Student Services",
+      "dept": "학생처",
+      "subDept": "학생지원팀",
       "isParentOrg": true,
       "location": {
         "block": "left",
@@ -24,8 +24,8 @@
     },
     {
       "id": "dept_003",
-      "dept": "General Affairs",
-      "subDept": "HR Team",
+      "dept": "총무처",
+      "subDept": "인사팀",
       "isParentOrg": true,
       "location": {
         "block": "left",
@@ -35,7 +35,7 @@
     },
     {
       "id": "dept_004",
-      "dept": "Planning",
+      "dept": "기획처",
       "subDept": null,
       "isParentOrg": false,
       "location": {
@@ -46,7 +46,7 @@
     },
     {
       "id": "dept_005",
-      "dept": "Admissions",
+      "dept": "입학처",
       "subDept": null,
       "isParentOrg": false,
       "location": {
@@ -59,11 +59,11 @@
   "employees": [
     {
       "id": "emp_001",
-      "name": "John Smith",
-      "dept": "Academic Affairs",
-      "subDept": "Faculty Support",
-      "position": "Team Lead",
-      "empType": "Regular",
+      "name": "김철수",
+      "dept": "교무처",
+      "subDept": "교수지원팀",
+      "position": "팀장",
+      "empType": "정규직",
       "photo": "",
       "location": {
         "block": "left",
@@ -74,11 +74,11 @@
     },
     {
       "id": "emp_002",
-      "name": "Jane Doe",
-      "dept": "Academic Affairs",
-      "subDept": "Faculty Support",
-      "position": "Staff",
-      "empType": "Contract",
+      "name": "이영희",
+      "dept": "교무처",
+      "subDept": "교수지원팀",
+      "position": "직원",
+      "empType": "계약직",
       "photo": "",
       "location": {
         "block": "left",
@@ -89,11 +89,11 @@
     },
     {
       "id": "emp_003",
-      "name": "Bob Johnson",
-      "dept": "Student Affairs",
-      "subDept": "Student Services",
-      "position": "Team Lead",
-      "empType": "Regular",
+      "name": "박민수",
+      "dept": "학생처",
+      "subDept": "학생지원팀",
+      "position": "팀장",
+      "empType": "정규직",
       "photo": "",
       "location": {
         "block": "left",
@@ -104,11 +104,11 @@
     },
     {
       "id": "emp_004",
-      "name": "Alice Williams",
-      "dept": "Student Affairs",
-      "subDept": "Student Services",
-      "position": "Staff",
-      "empType": "Contract",
+      "name": "정수진",
+      "dept": "학생처",
+      "subDept": "학생지원팀",
+      "position": "직원",
+      "empType": "계약직",
       "photo": "",
       "location": {
         "block": "left",
@@ -119,11 +119,11 @@
     },
     {
       "id": "emp_005",
-      "name": "Charlie Brown",
-      "dept": "General Affairs",
-      "subDept": "HR Team",
-      "position": "Manager",
-      "empType": "Regular",
+      "name": "최민호",
+      "dept": "총무처",
+      "subDept": "인사팀",
+      "position": "부장",
+      "empType": "정규직",
       "photo": "",
       "location": {
         "block": "left",
@@ -134,11 +134,11 @@
     },
     {
       "id": "emp_006",
-      "name": "Diana Ross",
-      "dept": "General Affairs",
-      "subDept": "HR Team",
-      "position": "Staff",
-      "empType": "Functional",
+      "name": "강서연",
+      "dept": "총무처",
+      "subDept": "인사팀",
+      "position": "직원",
+      "empType": "기능직",
       "photo": "",
       "location": {
         "block": "left",
@@ -149,11 +149,11 @@
     },
     {
       "id": "emp_007",
-      "name": "Edward Norton",
-      "dept": "Planning",
+      "name": "윤지훈",
+      "dept": "기획처",
       "subDept": null,
-      "position": "Director",
-      "empType": "Regular",
+      "position": "처장",
+      "empType": "정규직",
       "photo": "",
       "location": {
         "block": "left",
@@ -164,11 +164,11 @@
     },
     {
       "id": "emp_008",
-      "name": "Fiona Apple",
-      "dept": "Planning",
+      "name": "한예린",
+      "dept": "기획처",
       "subDept": null,
-      "position": "Staff",
-      "empType": "Contract",
+      "position": "직원",
+      "empType": "계약직",
       "photo": "",
       "location": {
         "block": "left",
@@ -179,11 +179,11 @@
     },
     {
       "id": "emp_009",
-      "name": "George Martin",
-      "dept": "Admissions",
+      "name": "오준석",
+      "dept": "입학처",
       "subDept": null,
-      "position": "Team Lead",
-      "empType": "Regular",
+      "position": "팀장",
+      "empType": "정규직",
       "photo": "",
       "location": {
         "block": "right",
@@ -194,11 +194,11 @@
     },
     {
       "id": "emp_010",
-      "name": "Helen Mirren",
-      "dept": "Admissions",
+      "name": "임하은",
+      "dept": "입학처",
       "subDept": null,
-      "position": "Staff",
-      "empType": "Contract",
+      "position": "직원",
+      "empType": "계약직",
       "photo": "",
       "location": {
         "block": "right",
@@ -208,5 +208,5 @@
       "photoPosY": 30
     }
   ],
-  "lastUpdated": "2026-02-07T23:30:00"
+  "lastUpdated": "2026-02-07T23:50:00"
 }
