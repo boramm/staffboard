@@ -1,0 +1,380 @@
+/* ===== 출력 모드 CSS (20x13 그리드) ===== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* ===== 헤더 ===== */
+.print-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: white;
+}
+
+.header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.print-title {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.print-semester {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.total-count {
+  font-size: 16px;
+}
+
+.total-count strong {
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.legend {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-item.regular { color: #93c5fd; }
+.legend-item.contract { color: #67e8f9; }
+.legend-item.functional { color: #fcd34d; }
+.legend-item.leader { color: #fbbf24; }
+
+/* ===== 메인 컨테이너 ===== */
+.print-container {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  height: calc(100vh - 60px);
+  background: #e5e7eb;
+}
+
+/* ===== 블록 ===== */
+.block {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(13, 1fr);
+  gap: 3px;
+  padding: 6px;
+  border-radius: 8px;
+  overflow: visible;
+}
+
+.left-block {
+  background: linear-gradient(135deg, #dbeafe, #eff6ff);
+  border: 2px solid #93c5fd;
+}
+
+.right-block {
+  background: linear-gradient(135deg, #dcfce7, #f0fdf4);
+  border: 2px solid #86efac;
+}
+
+/* ===== 그리드 셀 ===== */
+.grid-cell {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ===== 부서 카드 ===== */
+.dept-card {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  color: white;
+  font-weight: 900;
+  font-size: 11px;
+  border-radius: 3px;
+  padding: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  margin-right: 4px;
+  transform: scale(1.02);
+}
+
+.dept-card.parent-org {
+  border-bottom: 2px solid #fbbf24;
+}
+
+.dept-card .dept-name {
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.dept-card .sub {
+  font-size: 8px;
+  color: #fcd34d;
+  margin-top: 1px;
+}
+
+/* ===== 직원 카드 ===== */
+.emp-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-left: 3px solid #2563eb;
+}
+
+/* 직급 3색 */
+.emp-card.regular { border-left-color: #2563eb; }
+.emp-card.contract { border-left-color: #0891b2; }
+.emp-card.functional { border-left-color: #a16207; }
+
+/* 팀장급 강조 */
+.emp-card.leader {
+  border: 2px solid #fbbf24;
+  border-left-width: 3px;
+  box-shadow: 0 0 4px rgba(251, 191, 36, 0.5);
+}
+
+.emp-photo {
+  flex: 1;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.emp-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-placeholder {
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.emp-info {
+  padding: 2px 1px;
+  text-align: center;
+  background: #fafafa;
+  border-top: 1px solid #eee;
+}
+
+.emp-name {
+  font-size: 9px;
+  font-weight: 700;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.emp-position {
+  font-size: 7px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== 인쇄 버튼 ===== */
+.print-controls {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 1000;
+}
+
+.btn-print {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-print:hover {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+}
+
+.btn-close {
+  padding: 10px 16px;
+  background: #6b7280;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ===== 인쇄 스타일 (A1) ===== */
+@media print {
+  @page {
+    size: A1 landscape;
+    margin: 5mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    visibility: visible !important;
+  }
+
+  body {
+    background: white;
+    min-height: auto;
+  }
+
+  .no-print,
+  .print-controls {
+    display: none !important;
+  }
+
+  .print-header {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #1e3a8a, #2563eb) !important;
+  }
+
+  .print-title {
+    font-size: 18px;
+  }
+
+  .print-container {
+    height: auto;
+    flex: 1;
+    padding: 5px;
+    gap: 6px;
+    background: #e5e7eb !important;
+  }
+
+  .block {
+    gap: 2px;
+    padding: 4px;
+    background: linear-gradient(135deg, #dbeafe, #eff6ff) !important;
+    border: 2px solid #93c5fd !important;
+  }
+
+  .right-block {
+    background: linear-gradient(135deg, #dcfce7, #f0fdf4) !important;
+    border: 2px solid #86efac !important;
+  }
+
+  .grid-cell {
+    background: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .dept-card {
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6) !important;
+    font-size: 10px;
+  }
+
+  .emp-card {
+    border-left-width: 3px !important;
+  }
+
+  .emp-card.regular { border-left-color: #2563eb !important; }
+  .emp-card.contract { border-left-color: #0891b2 !important; }
+  .emp-card.functional { border-left-color: #a16207 !important; }
+
+  .emp-card.leader {
+    border-color: #fbbf24 !important;
+    box-shadow: 0 0 4px rgba(251, 191, 36, 0.5) !important;
+  }
+
+  .emp-name {
+    font-size: 8px;
+  }
+
+  .emp-position {
+    font-size: 6px;
+  }
+}
+
+/* ===== A3 출력용 ===== */
+@media print and (max-width: 420mm) {
+  @page {
+    size: A3 landscape;
+    margin: 3mm;
+  }
+
+  .print-header {
+    padding: 6px 12px;
+  }
+
+  .print-title {
+    font-size: 14px;
+  }
+
+  .print-container {
+    gap: 4px;
+    padding: 3px;
+  }
+
+  .block {
+    gap: 1px;
+    padding: 3px;
+  }
+
+  .dept-card {
+    font-size: 8px;
+  }
+
+  .emp-name {
+    font-size: 7px;
+  }
+
+  .emp-position {
+    font-size: 5px;
+  }
+
+  .photo-placeholder {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "departments": [
+    {
+      "id": "dept_001",
+      "dept": "Academic Affairs",
+      "subDept": "Faculty Support",
+      "isParentOrg": true,
+      "location": {
+        "block": "left",
+        "coordinate": "A1",
+        "index": 0
+      }
+    },
+    {
+      "id": "dept_002",
+      "dept": "Student Affairs",
+      "subDept": "Student Services",
+      "isParentOrg": true,
+      "location": {
+        "block": "left",
+        "coordinate": "A2",
+        "index": 20
+      }
+    },
+    {
+      "id": "dept_003",
+      "dept": "General Affairs",
+      "subDept": "HR Team",
+      "isParentOrg": true,
+      "location": {
+        "block": "left",
+        "coordinate": "A3",
+        "index": 40
+      }
+    },
+    {
+      "id": "dept_004",
+      "dept": "Planning",
+      "subDept": null,
+      "isParentOrg": false,
+      "location": {
+        "block": "left",
+        "coordinate": "A4",
+        "index": 60
+      }
+    },
+    {
+      "id": "dept_005",
+      "dept": "Admissions",
+      "subDept": null,
+      "isParentOrg": false,
+      "location": {
+        "block": "right",
+        "coordinate": "A1",
+        "index": 0
+      }
+    }
+  ],
+  "employees": [
+    {
+      "id": "emp_001",
+      "name": "John Smith",
+      "dept": "Academic Affairs",
+      "subDept": "Faculty Support",
+      "position": "Team Lead",
+      "empType": "Regular",
+      "photo": "",
+      "location": {
+        "block": "left",
+        "coordinate": "B1",
+        "index": 1
+      },
+      "photoPosY": 30
+    },
+    {
+      "id": "emp_002",
+      "name": "Jane Doe",
+      "dept": "Academic Affairs",
+      "subDept": "Faculty Support",
+      "position": "Staff",
+      "empType": "Contract",
+      "photo": "",
+      "location": {
+        "block": "left",
+        "coordinate": "C1",
+        "index": 2
+      },
+      "photoPosY": 30
+    },
+    {
+      "id": "emp_003",
+      "name": "Bob Johnson",
+      "dept": "Student Affairs",
+      "subDept": "Student Services",
+      "position": "Team Lead",
+      "empType": "Regular",
+      "photo": "",
+      "location": {
+        "block": "left",
+        "coordinate": "B2",
+        "index": 21
+      },
+      "photoPosY": 30
+    },
+    {
+      "id": "emp_004",
+      "name": "Alice Williams",
+      "dept": "Student Affairs",
+      "subDept": "Student Services",
+      "position": "Staff",
+      "empType": "Contract",
+      "photo": "",
+      "location": {
+        "block": "left",
+        "coordinate": "C2",
+        "index": 22
+      },
+      "photoPosY": 30
+    },
+    {
+      "id": "emp_005",
+      "name": "Charlie Brown",
+      "dept": "General Affairs",
+      "subDept": "HR Team",
+      "position": "Manager",
+      "empType": "Regular",
+      "photo": "",
+      "location": {
+        "block": "left",
+        "coordinate": "B3",
+        "index": 41
+      },
+      "photoPosY": 30
+    },
+    {
+      "id": "emp_006",
+      "name": "Diana Ross",
+      "dept": "General Affairs",
+      "subDept": "HR Team",
+      "position": "Staff",
+      "empType": "Functional",
+      "photo": "",
+      "location": {
+        "block": "left",
+        "coordinate": "C3",
+        "index": 42
+      },
+      "photoPosY": 30
+    },
+    {
+      "id": "emp_007",
+      "name": "Edward Norton",
+      "dept": "Planning",
+      "subDept": null,
+      "position": "Director",
+      "empType": "Regular",
+      "photo": "",
+      "location": {
+        "block": "left",
+        "coordinate": "B4",
+        "index": 61
+      },
+      "photoPosY": 30
+    },
+    {
+      "id": "emp_008",
+      "name": "Fiona Apple",
+      "dept": "Planning",
+      "subDept": null,
+      "position": "Staff",
+      "empType": "Contract",
+      "photo": "",
+      "location": {
+        "block": "left",
+        "coordinate": "C4",
+        "index": 62
+      },
+      "photoPosY": 30
+    },
+    {
+      "id": "emp_009",
+      "name": "George Martin",
+      "dept": "Admissions",
+      "subDept": null,
+      "position": "Team Lead",
+      "empType": "Regular",
+      "photo": "",
+      "location": {
+        "block": "right",
+        "coordinate": "B1",
+        "index": 1
+      },
+      "photoPosY": 30
+    },
+    {
+      "id": "emp_010",
+      "name": "Helen Mirren",
+      "dept": "Admissions",
+      "subDept": null,
+      "position": "Staff",
+      "empType": "Contract",
+      "photo": "",
+      "location": {
+        "block": "right",
+        "coordinate": "C1",
+        "index": 2
+      },
+      "photoPosY": 30
+    }
+  ],
+  "lastUpdated": "2026-02-07T23:30:00"
+}

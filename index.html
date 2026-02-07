@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>교직원 현황판 V2</title>
+  <link rel="stylesheet" href="css/work-mode.css">
+  <script>
+    // ⚠️ 일회성 데이터 초기화 - empType 필드 추가 (이 코드는 나중에 삭제해도 됨)
+    if (!localStorage.getItem('v2_emptype_fix_v4')) {
+      localStorage.removeItem('staffboard_v2');
+      localStorage.setItem('v2_emptype_fix_v4', 'done');
+      console.log('[초기화] localStorage 삭제 완료');
+    }
+  </script>
+</head>
+<body>
+  <!-- ===== 상단: 헤더 영역 ===== -->
+  <header class="header">
+    <h1 class="header-title">🏫 삼육대 교직원 현황판 2025-2학기</h1>
+    <div class="header-buttons">
+      <button class="btn-photo" id="bulkPhotoBtn">📷 사진 업로드</button>
+      <button class="btn-scenario" id="toggleScenarioBtn">📁 시나리오</button>
+      <button class="btn-print" onclick="window.open('print.html', '_blank')">📄 출력 보기</button>
+    </div>
+  </header>
+
+  <!-- ===== 시나리오 패널 (사이드) ===== -->
+  <aside class="scenario-panel" id="scenarioPanel">
+    <div class="scenario-header">
+      <h3>📁 시나리오 관리</h3>
+      <button class="btn-close-panel" id="closeScenarioBtn">✕</button>
+    </div>
+    <div class="scenario-save-area">
+      <input type="text" id="scenarioNameInput" placeholder="시나리오 이름" class="scenario-input">
+      <button class="btn-save-scenario" id="saveScenarioBtn">저장</button>
+    </div>
+    <div class="scenario-list-area">
+      <div class="scenario-list-title">저장된 시나리오</div>
+      <ul class="scenario-list" id="scenarioList">
+        <!-- JavaScript로 목록 생성 -->
+      </ul>
+      <div class="scenario-empty" id="scenarioEmpty">저장된 시나리오가 없습니다</div>
+    </div>
+  </aside>
+
+  <!-- ===== 중앙: 보드 영역 ===== -->
+  <main class="board-container">
+    <!-- 좌측 블록 (20열 x 13행) -->
+    <div class="block-wrapper">
+      <div class="block-label">좌측 블록 (A~T)</div>
+      <div class="col-headers" id="leftColHeaders">
+        <div class="corner-cell"></div>
+        <!-- JavaScript로 A~T 열 헤더 생성 -->
+      </div>
+      <div class="block-with-rows">
+        <div class="row-headers" id="leftRowHeaders">
+          <!-- JavaScript로 1~13 행 헤더 생성 -->
+        </div>
+        <div class="block" id="leftBlock">
+          <!-- JavaScript로 260개 셀 생성 -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- 우측 블록 (20열 x 13행) -->
+    <div class="block-wrapper">
+      <div class="block-label">우측 블록 (U~AN)</div>
+      <div class="col-headers" id="rightColHeaders">
+        <div class="corner-cell"></div>
+        <!-- JavaScript로 U~AN 열 헤더 생성 -->
+      </div>
+      <div class="block-with-rows">
+        <div class="row-headers" id="rightRowHeaders">
+          <!-- JavaScript로 1~13 행 헤더 생성 -->
+        </div>
+        <div class="block" id="rightBlock">
+          <!-- JavaScript로 260개 셀 생성 -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== 하단: 채팅 입력 영역 ===== -->
+  <footer class="chat-container">
+    <div class="chat-input-area">
+      <input 
+        type="text" 
+        id="commandInput" 
+        class="chat-input" 
+        placeholder="예) 홍길동을 학생처로 이동"
+        autocomplete="off"
+      >
+      <button class="btn-execute" id="executeBtn">실행</button>
+    </div>
+    
+    <!-- 최근 명령 히스토리 -->
+    <div class="history-area" id="historyArea">
+      <div class="history-title">최근 명령:</div>
+      <ul class="history-list" id="historyList">
+        <!-- JavaScript로 최근 3개 명령 표시 -->
+      </ul>
+    </div>
+  </footer>
+
+  <script type="module">
+    // ===== 모듈 import =====
+    import { BOARD_CONFIG, DEPT_ORDER, genId, getCurrentDateTime } from './js/config.js';
+    import { 
+      indexToCoordinate, 
+      coordinateToIndex, 
+      isValidCoordinate,
+      parseCoordinate 
+    } from './js/grid-system.js';
+    import {
+      loadData,
+      loadFromLocalStorage,
+      getBoardData,
+      findEmployeeById,
+      findEmployeeByName,
+      findByCoordinate,
+      moveEmployee,
+      swapEmployees
+    } from './js/data-manager.js';
+    import { renderBoard, highlightCard } from './js/renderer.js';
+    import { parseCommand, getResultMessage } from './js/command-parser.js';
+    import { executeCommand as runCommand, initApp } from './js/app.js';
+    import {
+      getScenarios,
+      saveScenario,
+      loadScenarioByName,
+      deleteScenarioByName
+    } from './js/scenario-manager.js';
+    import { initDragAndDrop, enableCardDrag } from './js/drag-handler.js';
+    import { 
+      initPhotoManager, 
+      openPhotoEditor, 
+      openBulkUploadModal 
+    } from './js/photo-manager.js';
+    
+    // 모듈 import 로그
+    console.log('[index.html] 모든 모듈 import 성공');
+    
+    // ===== 좌표 생성 함수 (엑셀 스타일, grid-system.js 사용) =====
+    // 열 번호 → 열 문자 (0=A, 25=Z, 26=AA, 39=AN)
+    function colToLetter(col) {
+      if (col < 26) {
+        return String.fromCharCode(65 + col);
+      } else {
+        return 'A' + String.fromCharCode(65 + col - 26);
+      }
+    }
+    
+    // 블록별 좌표 생성
+    function getBlockCoordinate(blockName, localIndex) {
+      const localCol = localIndex % 20;
+      const row = Math.floor(localIndex / 20);
+      
+      // 좌측: A~T (0~19), 우측: U~AN (20~39)
+      const globalCol = blockName === 'left' ? localCol : localCol + 20;
+      
+      return colToLetter(globalCol) + (row + 1);
+    }
+
+    // ===== 열/행 헤더 생성 (엑셀 스타일) =====
+    function createColumnHeaders(headerId, startCol) {
+      const container = document.getElementById(headerId);
+      for (let i = 0; i < 20; i++) {
+        const header = document.createElement('div');
+        header.className = 'col-header';
+        header.textContent = colToLetter(startCol + i);
+        container.appendChild(header);
+      }
+    }
+    
+    function createRowHeaders(headerId) {
+      const container = document.getElementById(headerId);
+      for (let i = 1; i <= 13; i++) {
+        const header = document.createElement('div');
+        header.className = 'row-header';
+        header.textContent = i;
+        container.appendChild(header);
+      }
+    }
+    
+    // ===== 그리드 셀 생성 =====
+    function createGridCells(blockId) {
+      const block = document.getElementById(blockId);
+      const blockName = blockId === 'leftBlock' ? 'left' : 'right';
+      
+      for (let i = 0; i < 260; i++) {  // 20 x 13 = 260
+        const coord = getBlockCoordinate(blockName, i);
+        const cell = document.createElement('div');
+        cell.className = 'grid-cell';
+        cell.dataset.coord = coord;
+        cell.dataset.block = blockName;
+        cell.dataset.index = i;
+        
+        // 셀 내부 좌표 라벨은 이제 숨김 (상단/좌측 헤더가 있으므로)
+        // const coordLabel = document.createElement('span');
+        // coordLabel.className = 'coord-label';
+        // coordLabel.textContent = coord;
+        // cell.appendChild(coordLabel);
+        
+        block.appendChild(cell);
+      }
+    }
+
+    // ===== 명령 실행 =====
+    async function executeCommand() {
+      const input = document.getElementById('commandInput');
+      const command = input.value.trim();
+      
+      if (!command) return;
+      
+      // 명령어 파싱
+      const cmdObj = parseCommand(command);
+      console.log('[파싱 결과]', cmdObj);
+      
+      // 명령 실행 (app.js의 runCommand)
+      const result = await runCommand(cmdObj);
+      console.log('[실행 결과]', result);
+      
+      // 히스토리에 추가 (결과 메시지 포함)
+      addToHistory(result.message || command, result.success);
+      
+      // 입력창 비우기
+      input.value = '';
+    }
+
+    // ===== 히스토리 추가 =====
+    const commandHistory = [];
+    
+    function addToHistory(command, success) {
+      commandHistory.unshift({ command, success, time: new Date() });
+      
+      // 최대 3개만 유지
+      if (commandHistory.length > 3) {
+        commandHistory.pop();
+      }
+      
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const list = document.getElementById('historyList');
+      list.innerHTML = '';
+      
+      commandHistory.forEach(item => {
+        const li = document.createElement('li');
+        li.className = item.success ? 'history-success' : 'history-fail';
+        li.textContent = item.command;
+        list.appendChild(li);
+      });
+    }
+
+    // ===== 시나리오 패널 =====
+    function toggleScenarioPanel() {
+      const panel = document.getElementById('scenarioPanel');
+      panel.classList.toggle('open');
+      if (panel.classList.contains('open')) {
+        renderScenarioList();
+      }
+    }
+
+    function renderScenarioList() {
+      const list = document.getElementById('scenarioList');
+      const empty = document.getElementById('scenarioEmpty');
+      const scenarios = getScenarios();
+      
+      list.innerHTML = '';
+      
+      if (scenarios.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+      
+      empty.style.display = 'none';
+      
+      scenarios.forEach(scenario => {
+        const li = document.createElement('li');
+        li.className = 'scenario-item';
+        li.innerHTML = `
+          <div class="scenario-item-name">${scenario.name}</div>
+          <div class="scenario-item-date">${scenario.createdAt}</div>
+          <div class="scenario-item-actions">
+            <button class="btn-load-scenario" data-name="${scenario.name}">불러오기</button>
+            <button class="btn-delete-scenario" data-name="${scenario.name}">삭제</button>
+          </div>
+        `;
+        list.appendChild(li);
+      });
+      
+      // 불러오기 버튼 이벤트
+      list.querySelectorAll('.btn-load-scenario').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const name = btn.dataset.name;
+          const success = loadScenarioByName(name);
+          if (success) {
+            renderBoard();
+            addToHistory(`✅ 시나리오 "${name}" 불러옴`, true);
+          }
+        });
+      });
+      
+      // 삭제 버튼 이벤트
+      list.querySelectorAll('.btn-delete-scenario').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const name = btn.dataset.name;
+          if (confirm(`"${name}" 시나리오를 삭제할까요?`)) {
+            deleteScenarioByName(name);
+            renderScenarioList();
+            addToHistory(`🗑️ 시나리오 "${name}" 삭제됨`, true);
+          }
+        });
+      });
+    }
+
+    function handleSaveScenario() {
+      const input = document.getElementById('scenarioNameInput');
+      let name = input.value.trim();
+      
+      if (!name) {
+        const now = new Date();
+        name = `${now.getMonth() + 1}월${now.getDate()}일_${now.getHours()}시${now.getMinutes()}분`;
+      }
+      
+      const scenario = saveScenario(name);
+      if (scenario) {
+        input.value = '';
+        renderScenarioList();
+        addToHistory(`📁 시나리오 "${name}" 저장됨`, true);
+      }
+    }
+
+    // ===== 초기화 =====
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 열/행 헤더 생성 (엑셀 스타일)
+      createColumnHeaders('leftColHeaders', 0);    // A~T (0~19)
+      createColumnHeaders('rightColHeaders', 20);  // U~AN (20~39)
+      createRowHeaders('leftRowHeaders');
+      createRowHeaders('rightRowHeaders');
+      
+      // 좌/우 블록에 그리드 셀 생성
+      createGridCells('leftBlock');
+      createGridCells('rightBlock');
+      
+      // 실행 버튼 이벤트
+      document.getElementById('executeBtn').addEventListener('click', executeCommand);
+      
+      // Enter 키로 실행
+      document.getElementById('commandInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          executeCommand();
+        }
+      });
+      
+      // 시나리오 패널 이벤트
+      document.getElementById('toggleScenarioBtn').addEventListener('click', toggleScenarioPanel);
+      document.getElementById('closeScenarioBtn').addEventListener('click', toggleScenarioPanel);
+      document.getElementById('saveScenarioBtn').addEventListener('click', handleSaveScenario);
+      document.getElementById('scenarioNameInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          handleSaveScenario();
+        }
+      });
+      
+      // 앱 초기화 (데이터 로드 + 렌더링)
+      await initApp();
+      
+      // 사진 관리자 초기화
+      await initPhotoManager();
+      
+      // 드래그 앤 드롭 초기화
+      initDragAndDrop();
+      enableCardDrag();
+      
+      // 사진 업로드 버튼
+      document.getElementById('bulkPhotoBtn').addEventListener('click', openBulkUploadModal);
+      
+      // 더블클릭 이벤트 (직원 카드 → 사진 편집, 빈 셀 → 직원 추가)
+      document.addEventListener('dblclick', (e) => {
+        // 1. 직원 카드 더블클릭 → 사진 편집
+        const empCard = e.target.closest('.emp-card');
+        if (empCard) {
+          const empId = empCard.dataset.id;
+          if (empId) {
+            openPhotoEditor(empId);
+          }
+          return;
+        }
+        
+        // 2. 부서 카드는 renderer.js에서 처리 (무시)
+        if (e.target.closest('.dept-card')) {
+          return;
+        }
+        
+        // 3. 빈 셀 더블클릭 → 추가 선택 팝업 (직원/부서)
+        const cell = e.target.closest('.grid-cell');
+        if (cell && !cell.querySelector('.emp-card, .dept-card')) {
+          const coord = cell.dataset.coord;
+          openAddSelectionModal(coord);
+        }
+      });
+      
+      // 오른쪽 클릭 컨텍스트 메뉴
+      document.addEventListener('contextmenu', (e) => {
+        const card = e.target.closest('.emp-card, .dept-card');
+        if (card) {
+          e.preventDefault();
+          showContextMenu(e.pageX, e.pageY, card);
+        }
+      });
+      
+      // 클릭 시 컨텍스트 메뉴 닫기
+      document.addEventListener('click', () => {
+        const menu = document.querySelector('.context-menu');
+        if (menu) menu.remove();
+      });
+      
+      // 시나리오 목록 초기 렌더링
+      renderScenarioList();
+      
+      console.log('=== 교직원 현황판 V2 초기화 완료 ===');
+      console.log('좌표 시스템: A1 ~ T13 (20열 x 13행)');
+      console.log('명령어 예시: "홍길동을 학생처로 이동", "홍길동을 C3으로 이동"');
+    });
+    
+    // ===== 컨텍스트 메뉴 =====
+    function showContextMenu(x, y, card) {
+      // 기존 메뉴 제거
+      const existingMenu = document.querySelector('.context-menu');
+      if (existingMenu) existingMenu.remove();
+      
+      const isEmp = card.classList.contains('emp-card');
+      const isDept = card.classList.contains('dept-card');
+      const cardId = card.dataset.id;
+      
+      // 카드 정보 가져오기
+      let cardName = '';
+      if (isEmp) {
+        const nameEl = card.querySelector('.emp-name');
+        cardName = nameEl ? nameEl.textContent.replace('⭐', '').trim() : '직원';
+      } else if (isDept) {
+        const nameEl = card.querySelector('.dept-name');
+        cardName = nameEl ? nameEl.textContent : '부서';
+      }
+      
+      const menu = document.createElement('div');
+      menu.className = 'context-menu';
+      menu.innerHTML = `
+        <div class="context-menu-header">${cardName}</div>
+        <button class="context-menu-item" data-action="edit">
+          ✏️ 편집
+        </button>
+        <button class="context-menu-item danger" data-action="delete">
+          🗑️ 삭제
+        </button>
+      `;
+      
+      // 화면 경계 체크
+      const menuWidth = 160;
+      const menuHeight = 100;
+      const adjustedX = x + menuWidth > window.innerWidth ? x - menuWidth : x;
+      const adjustedY = y + menuHeight > window.innerHeight ? y - menuHeight : y;
+      
+      menu.style.left = adjustedX + 'px';
+      menu.style.top = adjustedY + 'px';
+      
+      document.body.appendChild(menu);
+      
+      // 메뉴 항목 클릭
+      menu.querySelectorAll('.context-menu-item').forEach(item => {
+        item.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const action = item.dataset.action;
+          menu.remove();
+          
+          if (action === 'edit') {
+            if (isEmp) {
+              openPhotoEditor(cardId);
+            } else if (isDept) {
+              // 부서 편집은 더블클릭으로
+              card.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+            }
+          } else if (action === 'delete') {
+            if (confirm(`"${cardName}"을(를) 삭제하시겠습니까?`)) {
+              if (isEmp) {
+                const { removeEmployee } = await import('./js/data-manager.js');
+                removeEmployee(cardId);
+              } else if (isDept) {
+                const { removeDepartment } = await import('./js/data-manager.js');
+                removeDepartment(cardId);
+              }
+              const { renderBoard } = await import('./js/renderer.js');
+              renderBoard();
+              addToHistory(`🗑️ "${cardName}" 삭제됨`, true);
+            }
+          }
+        });
+      });
+    }
+    
+    // ===== 직원 추가 모달 =====
+    function openAddEmployeeModal(coord) {
+      // 기존 모달 제거
+      const existingModal = document.querySelector('.add-emp-modal');
+      if (existingModal) existingModal.remove();
+      
+      const modal = document.createElement('div');
+      modal.className = 'add-emp-modal';
+      modal.innerHTML = `
+        <div class="add-emp-content" onclick="event.stopPropagation()">
+          <div class="add-emp-header">
+            <h3>👤 직원 추가 (${coord})</h3>
+            <button class="btn-close-modal" type="button">✕</button>
+          </div>
+          <div class="add-emp-body">
+            <label>이름 *</label>
+            <input type="text" class="add-emp-name" placeholder="홍길동" required>
+            
+            <label>직위</label>
+            <input type="text" class="add-emp-position" placeholder="팀장, 직원, 교수 등">
+            
+            <label>직종</label>
+            <select class="add-emp-type">
+              <option value="regular">정규직</option>
+              <option value="contract">계약직</option>
+              <option value="functional">기능직</option>
+            </select>
+            
+            <label>소속 부서</label>
+            <input type="text" class="add-emp-dept" placeholder="교무처, 학생처 등">
+          </div>
+          <div class="add-emp-footer">
+            <button class="btn-cancel" type="button">취소</button>
+            <button class="btn-save" type="button">추가</button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      
+      const nameInput = modal.querySelector('.add-emp-name');
+      const posInput = modal.querySelector('.add-emp-position');
+      const typeSelect = modal.querySelector('.add-emp-type');
+      const deptInput = modal.querySelector('.add-emp-dept');
+      const closeBtn = modal.querySelector('.btn-close-modal');
+      const cancelBtn = modal.querySelector('.btn-cancel');
+      const saveBtn = modal.querySelector('.btn-save');
+      
+      setTimeout(() => nameInput.focus(), 100);
+      
+      const closeModal = (e) => {
+        if (e) e.stopPropagation();
+        modal.remove();
+      };
+      
+      closeBtn.addEventListener('click', closeModal);
+      cancelBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal(e);
+      });
+      
+      // 저장
+      saveBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const name = nameInput.value.trim();
+        if (!name) {
+          alert('이름을 입력하세요');
+          nameInput.focus();
+          return;
+        }
+        
+        // data-manager.js의 addEmployee 사용
+        const { addEmployee } = await import('./js/data-manager.js');
+        const newEmp = addEmployee({
+          name: name,
+          position: posInput.value.trim(),
+          empType: typeSelect.value,
+          dept: deptInput.value.trim(),
+          coordinate: coord
+        });
+        
+        if (newEmp) {
+          const { renderBoard, highlightCard } = await import('./js/renderer.js');
+          renderBoard();
+          highlightCard(coord);
+          addToHistory(`✅ "${name}" 직원을 ${coord}에 추가했습니다`, true);
+        }
+        
+        closeModal();
+      });
+      
+      // Enter 키로 저장
+      modal.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          saveBtn.click();
+        }
+      });
+    }
+    
+    // ===== 추가 선택 모달 (직원/부서) =====
+    function openAddSelectionModal(coord) {
+      const existingModal = document.querySelector('.add-selection-modal');
+      if (existingModal) existingModal.remove();
+      
+      const modal = document.createElement('div');
+      modal.className = 'add-selection-modal';
+      modal.innerHTML = `
+        <div class="add-selection-content" onclick="event.stopPropagation()">
+          <div class="add-selection-header">
+            <h3>➕ 추가하기 (${coord})</h3>
+            <button class="btn-close-modal" type="button">✕</button>
+          </div>
+          <div class="add-selection-body">
+            <button class="btn-add-emp" type="button">
+              <span class="icon">👤</span>
+              <span class="text">직원 추가</span>
+            </button>
+            <button class="btn-add-dept" type="button">
+              <span class="icon">🏢</span>
+              <span class="text">부서 추가</span>
+            </button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      
+      const closeBtn = modal.querySelector('.btn-close-modal');
+      const addEmpBtn = modal.querySelector('.btn-add-emp');
+      const addDeptBtn = modal.querySelector('.btn-add-dept');
+      
+      const closeModal = () => modal.remove();
+      
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+      
+      addEmpBtn.addEventListener('click', () => {
+        closeModal();
+        openAddEmployeeModal(coord);
+      });
+      
+      addDeptBtn.addEventListener('click', () => {
+        closeModal();
+        openAddDeptModal(coord);
+      });
+    }
+    
+    // ===== 부서 추가 모달 =====
+    function openAddDeptModal(coord) {
+      const existingModal = document.querySelector('.add-dept-modal');
+      if (existingModal) existingModal.remove();
+      
+      const modal = document.createElement('div');
+      modal.className = 'add-dept-modal';
+      modal.innerHTML = `
+        <div class="add-dept-content" onclick="event.stopPropagation()">
+          <div class="add-dept-header">
+            <h3>🏢 부서 추가 (${coord})</h3>
+            <button class="btn-close-modal" type="button">✕</button>
+          </div>
+          <div class="add-dept-body">
+            <label>부서명 *</label>
+            <input type="text" class="add-dept-name" placeholder="교무처, 학생처 등" required>
+            
+            <label>부제목 (선택)</label>
+            <input type="text" class="add-dept-sub" placeholder="교수학습개발센터 등">
+            
+            <label>
+              <input type="checkbox" class="add-dept-parent">
+              상위 조직 (노란 밑줄)
+            </label>
+          </div>
+          <div class="add-dept-footer">
+            <button class="btn-cancel" type="button">취소</button>
+            <button class="btn-save" type="button">추가</button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      
+      const nameInput = modal.querySelector('.add-dept-name');
+      const subInput = modal.querySelector('.add-dept-sub');
+      const parentCheckbox = modal.querySelector('.add-dept-parent');
+      const closeBtn = modal.querySelector('.btn-close-modal');
+      const cancelBtn = modal.querySelector('.btn-cancel');
+      const saveBtn = modal.querySelector('.btn-save');
+      
+      setTimeout(() => nameInput.focus(), 100);
+      
+      const closeModal = (e) => {
+        if (e) e.stopPropagation();
+        modal.remove();
+      };
+      
+      closeBtn.addEventListener('click', closeModal);
+      cancelBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal(e);
+      });
+      
+      // 저장
+      saveBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const name = nameInput.value.trim();
+        if (!name) {
+          alert('부서명을 입력하세요');
+          nameInput.focus();
+          return;
+        }
+        
+        const { addDepartment } = await import('./js/data-manager.js');
+        const newDept = addDepartment({
+          dept: name,
+          subDept: subInput.value.trim(),
+          isParentOrg: parentCheckbox.checked,
+          coordinate: coord
+        });
+        
+        if (newDept) {
+          const { renderBoard, highlightCard } = await import('./js/renderer.js');
+          renderBoard();
+          highlightCard(coord);
+          addToHistory(`✅ "${name}" 부서를 ${coord}에 추가했습니다`, true);
+        }
+        
+        closeModal();
+      });
+      
+      // Enter 키로 저장
+      modal.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          saveBtn.click();
+        }
+      });
+    }
+  </script>
+</body>
+</html>

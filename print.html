@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>교직원 현황판 - 출력용</title>
+  <link rel="stylesheet" href="css/print-mode.css">
+</head>
+<body>
+  <!-- ===== 헤더 ===== -->
+  <header class="print-header">
+    <div class="header-left">
+      <h1 class="print-title">🏫 삼육대학교 교직원 현황판</h1>
+      <span class="print-semester">2025-2학기</span>
+    </div>
+    <div class="header-right">
+      <div class="total-count">총원 <strong id="totalCount">0</strong>명</div>
+      <div class="legend">
+        <span class="legend-item regular">■ 정규직</span>
+        <span class="legend-item contract">■ 계약직</span>
+        <span class="legend-item functional">■ 기능직</span>
+        <span class="legend-item leader">⭐ 팀장급</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== 메인: 20x13 그리드 ===== -->
+  <main class="print-container">
+    <!-- 좌측 블록 (A1~T13) -->
+    <div class="block left-block" id="leftBlock"></div>
+    
+    <!-- 우측 블록 (U1~AN13) -->
+    <div class="block right-block" id="rightBlock"></div>
+  </main>
+
+  <!-- ===== 인쇄 버튼 (화면용) ===== -->
+  <div class="print-controls no-print">
+    <button onclick="window.print()" class="btn-print">🖨️ 인쇄하기</button>
+    <button onclick="window.close()" class="btn-close">✕ 닫기</button>
+  </div>
+
+  <script type="module">
+    import { loadFromLocalStorage, getBoardData } from './js/data-manager.js';
+    import { indexToCoordinate, getBlockFromCoordinate } from './js/grid-system.js';
+    import { getAllPhotos } from './js/photo-manager.js';
+
+    const COLS = 20;
+    const ROWS = 13;
+    let photoCache = {};
+
+    // 직종 분류 (정규직/계약직/기능직)
+    function getEmpType(emp) {
+      // empType 필드가 있으면 우선 사용
+      if (emp.empType) return emp.empType;
+      
+      // 없으면 position에서 추론
+      const pos = emp.position || '';
+      if (pos.includes('계약') || pos.includes('촉탁') || pos.includes('무기')) return 'contract';
+      if (pos === '기능직') return 'functional';
+      return 'regular';
+    }
+
+    // 팀장급 여부 (팀장, 처장만)
+    function isLeader(position) {
+      const pos = position || '';
+      return pos.includes('팀장') || pos.includes('처장');
+    }
+
+    // 그리드 셀 생성
+    function createGridCells(blockEl, startCol) {
+      for (let row = 1; row <= ROWS; row++) {
+        for (let col = 0; col < COLS; col++) {
+          const cell = document.createElement('div');
+          cell.className = 'grid-cell';
+          const globalCol = startCol + col;
+          const coord = indexToCoordinate((row - 1) * 40 + globalCol);
+          cell.dataset.coord = coord;
+          blockEl.appendChild(cell);
+        }
+      }
+    }
+
+    // 부서 카드 생성
+    function createDeptCard(dept) {
+      const card = document.createElement('div');
+      card.className = 'dept-card';
+      if (dept.isParentOrg) card.classList.add('parent-org');
+      
+      const deptName = document.createElement('div');
+      deptName.className = 'dept-name';
+      deptName.textContent = dept.dept;
+      card.appendChild(deptName);
+      
+      if (dept.subDept) {
+        const subDept = document.createElement('div');
+        subDept.className = 'sub';
+        subDept.textContent = dept.subDept;
+        card.appendChild(subDept);
+      }
+      
+      return card;
+    }
+
+    // 직원 카드 생성
+    function createEmpCard(emp) {
+      const card = document.createElement('div');
+      card.className = 'emp-card';
+      
+      // 직종 클래스
+      card.classList.add(getEmpType(emp));
+      if (isLeader(emp.position)) card.classList.add('leader');
+      
+      // 사진
+      const photoDiv = document.createElement('div');
+      photoDiv.className = 'emp-photo';
+      
+      let photoSrc = null;
+      if (emp.photo?.startsWith('indexeddb://')) {
+        photoSrc = photoCache[emp.id] || null;
+      } else if (emp.photo) {
+        photoSrc = emp.photo;
+      }
+      
+      if (photoSrc) {
+        const img = document.createElement('img');
+        img.src = photoSrc;
+        img.alt = emp.name;
+        img.style.objectPosition = `center ${emp.photoPosY || 30}%`;
+        photoDiv.appendChild(img);
+      } else {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'photo-placeholder';
+        placeholder.textContent = '📷';
+        photoDiv.appendChild(placeholder);
+      }
+      card.appendChild(photoDiv);
+      
+      // 정보
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'emp-info';
+      
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'emp-name';
+      nameDiv.textContent = isLeader(emp.position) ? `${emp.name}⭐` : emp.name;
+      infoDiv.appendChild(nameDiv);
+      
+      if (emp.position) {
+        const posDiv = document.createElement('div');
+        posDiv.className = 'emp-position';
+        posDiv.textContent = emp.position;
+        infoDiv.appendChild(posDiv);
+      }
+      
+      card.appendChild(infoDiv);
+      return card;
+    }
+
+    // 좌표로 셀 찾기
+    function getCellByCoord(coord) {
+      const block = getBlockFromCoordinate(coord);
+      const blockEl = document.getElementById(block === 'left' ? 'leftBlock' : 'rightBlock');
+      return blockEl?.querySelector(`.grid-cell[data-coord="${coord}"]`);
+    }
+
+    // 렌더링
+    async function render() {
+      const boardData = await loadFromLocalStorage();
+      if (!boardData) {
+        document.querySelector('.print-container').innerHTML = '<p>데이터를 불러올 수 없습니다.</p>';
+        return;
+      }
+
+      // 사진 로드
+      try {
+        photoCache = await getAllPhotos();
+      } catch (e) {
+        console.warn('사진 로드 실패:', e);
+      }
+
+      // 그리드 생성
+      const leftBlock = document.getElementById('leftBlock');
+      const rightBlock = document.getElementById('rightBlock');
+      createGridCells(leftBlock, 0);    // A~T (0~19)
+      createGridCells(rightBlock, 20);  // U~AN (20~39)
+
+      // 총원 표시
+      document.getElementById('totalCount').textContent = boardData.employees?.length || 0;
+
+      // 부서 카드 렌더링
+      boardData.departments?.forEach(dept => {
+        const cell = getCellByCoord(dept.location.coordinate);
+        if (cell) {
+          cell.appendChild(createDeptCard(dept));
+        }
+      });
+
+      // 직원 카드 렌더링
+      boardData.employees?.forEach(emp => {
+        const cell = getCellByCoord(emp.location.coordinate);
+        if (cell) {
+          cell.appendChild(createEmpCard(emp));
+        }
+      });
+    }
+
+    // 초기화
+    render();
+  </script>
+</body>
+</html>
