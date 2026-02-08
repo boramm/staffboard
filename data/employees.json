@@ -5,208 +5,116 @@
       "dept": "교무처",
       "subDept": "교수지원팀",
       "isParentOrg": true,
-      "location": {
-        "block": "left",
-        "coordinate": "A1",
-        "index": 0
-      }
+      "location": {"block": "left", "coordinate": "A1", "index": 0}
     },
     {
       "id": "dept_002",
       "dept": "학생처",
       "subDept": "학생지원팀",
       "isParentOrg": true,
-      "location": {
-        "block": "left",
-        "coordinate": "A2",
-        "index": 20
-      }
+      "location": {"block": "left", "coordinate": "A3", "index": 40}
     },
     {
       "id": "dept_003",
       "dept": "총무처",
       "subDept": "인사팀",
       "isParentOrg": true,
-      "location": {
-        "block": "left",
-        "coordinate": "A3",
-        "index": 40
-      }
+      "location": {"block": "left", "coordinate": "A5", "index": 80}
     },
     {
       "id": "dept_004",
       "dept": "기획처",
       "subDept": null,
       "isParentOrg": false,
-      "location": {
-        "block": "left",
-        "coordinate": "A4",
-        "index": 60
-      }
+      "location": {"block": "left", "coordinate": "A7", "index": 120}
     },
     {
       "id": "dept_005",
       "dept": "입학처",
       "subDept": null,
       "isParentOrg": false,
-      "location": {
-        "block": "right",
-        "coordinate": "A1",
-        "index": 0
-      }
+      "location": {"block": "left", "coordinate": "A9", "index": 160}
+    },
+    {
+      "id": "dept_006",
+      "dept": "연구처",
+      "subDept": null,
+      "isParentOrg": false,
+      "location": {"block": "right", "coordinate": "A1", "index": 0}
+    },
+    {
+      "id": "dept_007",
+      "dept": "대외협력처",
+      "subDept": null,
+      "isParentOrg": false,
+      "location": {"block": "right", "coordinate": "A3", "index": 40}
+    },
+    {
+      "id": "dept_008",
+      "dept": "정보전산팀",
+      "subDept": null,
+      "isParentOrg": false,
+      "location": {"block": "right", "coordinate": "A5", "index": 80}
     }
   ],
   "employees": [
-    {
-      "id": "emp_001",
-      "name": "김철수",
-      "dept": "교무처",
-      "subDept": "교수지원팀",
-      "position": "팀장",
-      "empType": "정규직",
-      "photo": "",
-      "location": {
-        "block": "left",
-        "coordinate": "B1",
-        "index": 1
-      },
-      "photoPosY": 30
-    },
-    {
-      "id": "emp_002",
-      "name": "이영희",
-      "dept": "교무처",
-      "subDept": "교수지원팀",
-      "position": "직원",
-      "empType": "계약직",
-      "photo": "",
-      "location": {
-        "block": "left",
-        "coordinate": "C1",
-        "index": 2
-      },
-      "photoPosY": 30
-    },
-    {
-      "id": "emp_003",
-      "name": "박민수",
-      "dept": "학생처",
-      "subDept": "학생지원팀",
-      "position": "팀장",
-      "empType": "정규직",
-      "photo": "",
-      "location": {
-        "block": "left",
-        "coordinate": "B2",
-        "index": 21
-      },
-      "photoPosY": 30
-    },
-    {
-      "id": "emp_004",
-      "name": "정수진",
-      "dept": "학생처",
-      "subDept": "학생지원팀",
-      "position": "직원",
-      "empType": "계약직",
-      "photo": "",
-      "location": {
-        "block": "left",
-        "coordinate": "C2",
-        "index": 22
-      },
-      "photoPosY": 30
-    },
-    {
-      "id": "emp_005",
-      "name": "최민호",
-      "dept": "총무처",
-      "subDept": "인사팀",
-      "position": "부장",
-      "empType": "정규직",
-      "photo": "",
-      "location": {
-        "block": "left",
-        "coordinate": "B3",
-        "index": 41
-      },
-      "photoPosY": 30
-    },
-    {
-      "id": "emp_006",
-      "name": "강서연",
-      "dept": "총무처",
-      "subDept": "인사팀",
-      "position": "직원",
-      "empType": "기능직",
-      "photo": "",
-      "location": {
-        "block": "left",
-        "coordinate": "C3",
-        "index": 42
-      },
-      "photoPosY": 30
-    },
-    {
-      "id": "emp_007",
-      "name": "윤지훈",
-      "dept": "기획처",
-      "subDept": null,
-      "position": "처장",
-      "empType": "정규직",
-      "photo": "",
-      "location": {
-        "block": "left",
-        "coordinate": "B4",
-        "index": 61
-      },
-      "photoPosY": 30
-    },
-    {
-      "id": "emp_008",
-      "name": "한예린",
-      "dept": "기획처",
-      "subDept": null,
-      "position": "직원",
-      "empType": "계약직",
-      "photo": "",
-      "location": {
-        "block": "left",
-        "coordinate": "C4",
-        "index": 62
-      },
-      "photoPosY": 30
-    },
-    {
-      "id": "emp_009",
-      "name": "오준석",
-      "dept": "입학처",
-      "subDept": null,
-      "position": "팀장",
-      "empType": "정규직",
-      "photo": "",
-      "location": {
-        "block": "right",
-        "coordinate": "B1",
-        "index": 1
-      },
-      "photoPosY": 30
-    },
-    {
-      "id": "emp_010",
-      "name": "임하은",
-      "dept": "입학처",
-      "subDept": null,
-      "position": "직원",
-      "empType": "계약직",
-      "photo": "",
-      "location": {
-        "block": "right",
-        "coordinate": "C1",
-        "index": 2
-      },
-      "photoPosY": 30
-    }
+    {"id": "emp_001", "name": "김철수", "dept": "교무처", "subDept": "교수지원팀", "position": "팀장", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "B1", "index": 1}, "photoPosY": 30},
+    {"id": "emp_002", "name": "이영희", "dept": "교무처", "subDept": "교수지원팀", "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "left", "coordinate": "C1", "index": 2}, "photoPosY": 30},
+    {"id": "emp_003", "name": "박민수", "dept": "교무처", "subDept": "교수지원팀", "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "D1", "index": 3}, "photoPosY": 30},
+    {"id": "emp_004", "name": "정수진", "dept": "교무처", "subDept": "교수지원팀", "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "left", "coordinate": "E1", "index": 4}, "photoPosY": 30},
+    {"id": "emp_005", "name": "최민호", "dept": "교무처", "subDept": "교수지원팀", "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "F1", "index": 5}, "photoPosY": 30},
+    {"id": "emp_006", "name": "강서연", "dept": "교무처", "subDept": "교수지원팀", "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "left", "coordinate": "G1", "index": 6}, "photoPosY": 30},
+    
+    {"id": "emp_007", "name": "윤지훈", "dept": "학생처", "subDept": "학생지원팀", "position": "팀장", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "B3", "index": 41}, "photoPosY": 30},
+    {"id": "emp_008", "name": "한예린", "dept": "학생처", "subDept": "학생지원팀", "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "left", "coordinate": "C3", "index": 42}, "photoPosY": 30},
+    {"id": "emp_009", "name": "오준석", "dept": "학생처", "subDept": "학생지원팀", "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "D3", "index": 43}, "photoPosY": 30},
+    {"id": "emp_010", "name": "임하은", "dept": "학생처", "subDept": "학생지원팀", "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "left", "coordinate": "E3", "index": 44}, "photoPosY": 30},
+    {"id": "emp_011", "name": "신동욱", "dept": "학생처", "subDept": "학생지원팀", "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "F3", "index": 45}, "photoPosY": 30},
+    {"id": "emp_012", "name": "배지연", "dept": "학생처", "subDept": "학생지원팀", "position": "직원", "empType": "기능직", "photo": "", "location": {"block": "left", "coordinate": "G3", "index": 46}, "photoPosY": 30},
+    {"id": "emp_013", "name": "송태희", "dept": "학생처", "subDept": "학생지원팀", "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "left", "coordinate": "H3", "index": 47}, "photoPosY": 30},
+    
+    {"id": "emp_014", "name": "권혁진", "dept": "총무처", "subDept": "인사팀", "position": "부장", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "B5", "index": 81}, "photoPosY": 30},
+    {"id": "emp_015", "name": "문채원", "dept": "총무처", "subDept": "인사팀", "position": "팀장", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "C5", "index": 82}, "photoPosY": 30},
+    {"id": "emp_016", "name": "양승훈", "dept": "총무처", "subDept": "인사팀", "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "left", "coordinate": "D5", "index": 83}, "photoPosY": 30},
+    {"id": "emp_017", "name": "조미경", "dept": "총무처", "subDept": "인사팀", "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "E5", "index": 84}, "photoPosY": 30},
+    {"id": "emp_018", "name": "홍성민", "dept": "총무처", "subDept": "인사팀", "position": "직원", "empType": "기능직", "photo": "", "location": {"block": "left", "coordinate": "F5", "index": 85}, "photoPosY": 30},
+    {"id": "emp_019", "name": "노은주", "dept": "총무처", "subDept": "인사팀", "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "left", "coordinate": "G5", "index": 86}, "photoPosY": 30},
+    
+    {"id": "emp_020", "name": "서정우", "dept": "기획처", "subDept": null, "position": "처장", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "B7", "index": 121}, "photoPosY": 30},
+    {"id": "emp_021", "name": "유하나", "dept": "기획처", "subDept": null, "position": "팀장", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "C7", "index": 122}, "photoPosY": 30},
+    {"id": "emp_022", "name": "하준영", "dept": "기획처", "subDept": null, "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "D7", "index": 123}, "photoPosY": 30},
+    {"id": "emp_023", "name": "나수정", "dept": "기획처", "subDept": null, "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "left", "coordinate": "E7", "index": 124}, "photoPosY": 30},
+    {"id": "emp_024", "name": "장민재", "dept": "기획처", "subDept": null, "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "F7", "index": 125}, "photoPosY": 30},
+    
+    {"id": "emp_025", "name": "고은비", "dept": "입학처", "subDept": null, "position": "팀장", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "B9", "index": 161}, "photoPosY": 30},
+    {"id": "emp_026", "name": "전상훈", "dept": "입학처", "subDept": null, "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "left", "coordinate": "C9", "index": 162}, "photoPosY": 30},
+    {"id": "emp_027", "name": "표지현", "dept": "입학처", "subDept": null, "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "D9", "index": 163}, "photoPosY": 30},
+    {"id": "emp_028", "name": "소윤아", "dept": "입학처", "subDept": null, "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "left", "coordinate": "E9", "index": 164}, "photoPosY": 30},
+    {"id": "emp_029", "name": "주현우", "dept": "입학처", "subDept": null, "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "left", "coordinate": "F9", "index": 165}, "photoPosY": 30},
+    {"id": "emp_030", "name": "마서진", "dept": "입학처", "subDept": null, "position": "직원", "empType": "기능직", "photo": "", "location": {"block": "left", "coordinate": "G9", "index": 166}, "photoPosY": 30},
+    
+    {"id": "emp_031", "name": "황도현", "dept": "연구처", "subDept": null, "position": "처장", "empType": "정규직", "photo": "", "location": {"block": "right", "coordinate": "B1", "index": 1}, "photoPosY": 30},
+    {"id": "emp_032", "name": "탁수빈", "dept": "연구처", "subDept": null, "position": "팀장", "empType": "정규직", "photo": "", "location": {"block": "right", "coordinate": "C1", "index": 2}, "photoPosY": 30},
+    {"id": "emp_033", "name": "여준호", "dept": "연구처", "subDept": null, "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "right", "coordinate": "D1", "index": 3}, "photoPosY": 30},
+    {"id": "emp_034", "name": "감민지", "dept": "연구처", "subDept": null, "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "right", "coordinate": "E1", "index": 4}, "photoPosY": 30},
+    {"id": "emp_035", "name": "변태양", "dept": "연구처", "subDept": null, "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "right", "coordinate": "F1", "index": 5}, "photoPosY": 30},
+    {"id": "emp_036", "name": "설다인", "dept": "연구처", "subDept": null, "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "right", "coordinate": "G1", "index": 6}, "photoPosY": 30},
+    
+    {"id": "emp_037", "name": "차민석", "dept": "대외협력처", "subDept": null, "position": "처장", "empType": "정규직", "photo": "", "location": {"block": "right", "coordinate": "B3", "index": 41}, "photoPosY": 30},
+    {"id": "emp_038", "name": "복서영", "dept": "대외협력처", "subDept": null, "position": "팀장", "empType": "정규직", "photo": "", "location": {"block": "right", "coordinate": "C3", "index": 42}, "photoPosY": 30},
+    {"id": "emp_039", "name": "선우진", "dept": "대외협력처", "subDept": null, "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "right", "coordinate": "D3", "index": 43}, "photoPosY": 30},
+    {"id": "emp_040", "name": "남궁해", "dept": "대외협력처", "subDept": null, "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "right", "coordinate": "E3", "index": 44}, "photoPosY": 30},
+    {"id": "emp_041", "name": "제갈민", "dept": "대외협력처", "subDept": null, "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "right", "coordinate": "F3", "index": 45}, "photoPosY": 30},
+    {"id": "emp_042", "name": "독고윤", "dept": "대외협력처", "subDept": null, "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "right", "coordinate": "G3", "index": 46}, "photoPosY": 30},
+    
+    {"id": "emp_043", "name": "사공준", "dept": "정보전산팀", "subDept": null, "position": "팀장", "empType": "정규직", "photo": "", "location": {"block": "right", "coordinate": "B5", "index": 81}, "photoPosY": 30},
+    {"id": "emp_044", "name": "황보라", "dept": "정보전산팀", "subDept": null, "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "right", "coordinate": "C5", "index": 82}, "photoPosY": 30},
+    {"id": "emp_045", "name": "선우빈", "dept": "정보전산팀", "subDept": null, "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "right", "coordinate": "D5", "index": 83}, "photoPosY": 30},
+    {"id": "emp_046", "name": "동방석", "dept": "정보전산팀", "subDept": null, "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "right", "coordinate": "E5", "index": 84}, "photoPosY": 30},
+    {"id": "emp_047", "name": "서문희", "dept": "정보전산팀", "subDept": null, "position": "직원", "empType": "기능직", "photo": "", "location": {"block": "right", "coordinate": "F5", "index": 85}, "photoPosY": 30},
+    {"id": "emp_048", "name": "진채원", "dept": "정보전산팀", "subDept": null, "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "right", "coordinate": "G5", "index": 86}, "photoPosY": 30},
+    {"id": "emp_049", "name": "예은수", "dept": "정보전산팀", "subDept": null, "position": "직원", "empType": "정규직", "photo": "", "location": {"block": "right", "coordinate": "H5", "index": 87}, "photoPosY": 30},
+    {"id": "emp_050", "name": "길준혁", "dept": "정보전산팀", "subDept": null, "position": "직원", "empType": "계약직", "photo": "", "location": {"block": "right", "coordinate": "I5", "index": 88}, "photoPosY": 30}
   ],
-  "lastUpdated": "2026-02-07T23:50:00"
+  "lastUpdated": "2026-02-08T16:00:00"
 }

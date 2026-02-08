@@ -1365,3 +1365,14 @@ body {
     display: none;
   }
 }
+
+/* 카드 찌그러짐 방지 */
+.emp-card {
+  min-width: 60px !important;
+  min-height: 80px !important;
+}
+
+.dept-card {
+  min-width: 60px !important;
+  min-height: 80px !important;
+}

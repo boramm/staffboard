@@ -2,75 +2,134 @@
 
 교직원 인사배치 시뮬레이션 및 현황 관리 시스템
 
-🔗 **[라이브 데모](https://boramm.github.io/staffboard/)** ← 클릭해서 바로 확인!
+🔗 **[Live Demo](https://boramm.github.io/staffboard/)** ← Click to see it in action!
 
 ---
 
-## ✨ 주요 기능
+## 🌏 Language / 언어
 
-- **시각화 보드**: 20×13 그리드로 260명 이상 관리 가능
-- **자연어 명령**: "홍길동을 학생처로 이동" 같은 텍스트 명령
-- **드래그 앤 드롭**: 마우스로 빠른 재배치
-- **시나리오 관리**: 여러 인사이동 안을 저장하고 비교
-- **인쇄 출력**: A1 사이즈 보고서 생성
+**Interface**: Korean (한국어)  
+**Purpose**: Designed for Korean university HR management system
 
-## 📸 스크린샷
-
-![현황판 메인 화면](img/screenshot.png)
-
-*샘플 데이터로 구성된 교직원 배치 현황*
+This project demonstrates real-world HR operations tools used in Korean educational institutions. The interface and sample data are in Korean to reflect authentic use cases.
 
 ---
 
-## 🚀 빠른 시작
+## ✨ Key Features / 주요 기능
 
-### 옵션 1: 라이브 데모 (권장)
-👉 **[여기를 클릭하세요](https://boramm.github.io/staffboard/)**
+- **Visual Board**: 20×13 grid layout for 260+ employees  
+  **시각화 보드**: 260명 이상 직원 배치 관리
+  
+- **Natural Language Commands**: "Move employee to department"  
+  **자연어 명령**: "홍길동을 학생처로 이동"
+  
+- **Drag & Drop**: Quick rearrangement with mouse  
+  **드래그 앤 드롭**: 마우스로 빠른 재배치
+  
+- **Scenario Management**: Save and compare multiple layouts  
+  **시나리오 관리**: 여러 인사이동 안 저장 및 비교
+  
+- **Print Export**: A1-size professional reports  
+  **인쇄 출력**: A1 사이즈 보고서 생성
 
-### 옵션 2: 로컬 실행
+---
+
+## 📸 Screenshots / 스크린샷
+
+![Staff Dashboard](img/screenshot.png)
+
+*Sample data showing organizational structure with 50+ employees across 8 departments*
+
+---
+
+## 🚀 Quick Start
+
+### Option 1: View Live Demo (Recommended)
+👉 **[https://boramm.github.io/staffboard/](https://boramm.github.io/staffboard/)**
+
+### Option 2: Run Locally
 ```bash
 git clone https://github.com/boramm/staffboard.git
 cd staffboard
 
-# 웹서버 실행 (CORS 에러 방지)
+# Start local server (required to avoid CORS errors)
 python3 -m http.server 8000
 
-# 브라우저에서 http://localhost:8000 접속
+# Open browser: http://localhost:8000
 ```
 
 ---
 
-## 🛠️ 기술 스택
+## 🛠️ Tech Stack
 
-- Vanilla JavaScript (ES6+)
-- HTML5 Drag & Drop API
-- CSS Grid Layout
-- LocalStorage
-
----
-
-## 🎯 프로젝트 목적
-
-실무 HR 시스템 개발 역량을 보여주기 위한 포트폴리오 프로젝트입니다.
-
-**참고**: 데모 버전은 샘플 데이터를 사용합니다. 실제 구현에서는 한국 대학교에서 15개 이상 부서의 260명 이상 직원을 관리했습니다.
+- **Frontend**: Vanilla JavaScript (ES6+)
+- **UI**: HTML5, CSS3 (Grid Layout)
+- **Interactions**: HTML5 Drag & Drop API
+- **Storage**: LocalStorage + IndexedDB
+- **Architecture**: Modular ES6 modules
 
 ---
 
-## 👤 개발자
+## 💡 Usage Examples
 
-**이보람 (Boram Lee)**
+### Moving Employees
+```
+Command: "김철수를 학생처로 이동"
+Result: Employee relocates to Student Affairs department
+```
+
+### Position Swap
+```
+Command: "홍길동이랑 이영희 자리 바꿔"
+Result: Two employees exchange positions
+```
+
+### Coordinate-based Movement
+```
+Command: "A3을 B5로 이동"
+Result: Card at A3 moves to B5
+```
+
+---
+
+## 🎯 Project Background / 프로젝트 배경
+
+Built to demonstrate practical HR systems development skills for HRIS positions.
+
+**Real Implementation Context**:
+- Managed 260+ employees across 15+ departments
+- Used at a Korean university for organizational planning
+- Reduced manual placement time by 80%
+- Enabled side-by-side comparison of reorganization proposals
+
+**Demo Version**:
+- Sample data with anonymized names
+- 50 employees across 8 departments
+- All core features functional
+
+---
+
+## 👤 Author / 개발자
+
+**Boram Lee (이보람)**
 - 💼 HR Operations & Systems Specialist
-- 🎓 Data Science, Ewha Womans University
-- 📍 Seoul, Korea → Australia
+- 🎓 M.S. in Data Science, Ewha Womans University
+- 📍 Seoul, Korea → Australia (relocating)
 - 💻 [GitHub](https://github.com/boramm)
+- 💌 Building practical tools for HR professionals
 
 ---
 
-## 📄 라이선스
+## 📄 License
 
-MIT License
+MIT License - feel free to use for learning purposes
 
 ---
 
-**⭐ 이 프로젝트가 도움이 되셨다면 Star를 눌러주세요!**
+## 🙏 Acknowledgments
+
+This project was developed to solve real pain points in university HR operations, demonstrating how technical skills can streamline administrative workflows.
+
+---
+
+**⭐ If you find this project interesting, please star the repository!**
